@@ -1,3 +1,25 @@
+# This is a fork of https://github.com/3rd-Eden/memcached/
+This fork was added to get around a php compression issue.
+
+Issue : PHP compression puts data in memcache in a way that can be read via sockets only when the 
+buffers are converted to string via binary encoding. Right now, memcached uses utf8, when a toString is done on 
+the buffers, it converts many bytes into error sequences, thereby corrupting the actual data.
+
+Solution : Two additional flags have been incorporated
+
+* `encoding`: *utf8*, whether to use `utf8` as encoding while converting data from socket 
+connection or the passed encoding.
+* `zlibInflate`: *false*, whether to use zlib to inflate the incoming data.
+
+Now when parsing such cases of data, setting encoding to 'binary' will make sure that socket data 
+is read using the binary encoding, thereby preserving the actual bytes.
+zlibInflate is passed to decompress the fetched data.
+
+Potential issues : Passing encoding as 'binary' breaks the cases when data such as 
+'привет мир, Memcached и nodejs для победы' is present in the data. I will try to fix this case soon.
+
+# Below is the original README from 3rd-Eden's node-memcached repository. If you find this fork useful, it's all been possible due to guys at 3rd-Eden
+
 # Memcached [![Build Status](https://secure.travis-ci.org/3rd-Eden/node-memcached.png?branch=master)](http://travis-ci.org/3rd-Eden/node-memcached)
 
 `memcached` is a fully featured Memcached client for Node.js. `memcached` is
@@ -93,8 +115,6 @@ Memcached server uses the same properties:
  that are removed from the consistent hashing scheme.
 * `keyCompression`: *true*, whether to use `md5` as hashing scheme when keys exceed `maxKeySize`.
 * `idle`: *5000*, the idle timeout for the connections.
-* `encoding`: *utf8*, whether to use `utf8` as encoding while converting data from socket connection or the passed encoding.
-* `zlibInflate`: *false*, whether to use zlib to inflate the incoming data.
 
 Example usage:
 
