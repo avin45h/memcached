@@ -18,7 +18,9 @@ zlibInflate is passed to decompress the fetched data.
 Potential issues : Passing encoding as 'binary' breaks the cases when data such as 
 'привет мир, Memcached и nodejs для победы' is present in the data. I will try to fix this case soon.
 
-# Below is the original README from 3rd-Eden's node-memcached repository. If you find this fork useful, it's all been possible due to guys at 3rd-Eden
+## WARNING : This repository will be deprecated once 3rd-Eden adds this support to their memcached module.
+
+## Below is the original README from 3rd-Eden's node-memcached repository. If you find this fork useful, it's all been possible due to guys at 3rd-Eden
 
 # Memcached [![Build Status](https://secure.travis-ci.org/3rd-Eden/node-memcached.png?branch=master)](http://travis-ci.org/3rd-Eden/node-memcached)
 
